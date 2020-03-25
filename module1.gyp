@@ -1,4 +1,3 @@
-# This is a test
+# Assignment 1 Sorting & Search Algorithms 
 
-
-#Test commit 2 using VSC
+# Test
