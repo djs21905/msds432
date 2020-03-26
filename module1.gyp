@@ -71,3 +71,16 @@ plt.ylabel("Time (ms)")
 plt.title("Binary Search Vs. Simple Search")
 plt.legend()
 plt.show()
+
+
+"""
+In this exercise the efficiency of two search algorithms (Binary Search and Simple Search) was evaluated
+using Big O notation.  5 arrays of increasing size were generated and passed to the Binary Search and Simple Search algorithms.
+The time required to locate the index of the largest value within the array was evaluated.  As you can see from figure 1. 
+Binary search outperformed Simple Search for each of the 5 array sizes.  It is apparant that as the array size increases,
+Binary search becomes the obvious efficient choice over simple search; the two lines diverge increasingly as array input size
+increases.  This is expected because Simple search is O (n) and Binary Search is O (log n).  Big O does not measure time, rather
+it measures the efficiency of an algorithm assuming the worst case scenario.  
+
+
+"""
