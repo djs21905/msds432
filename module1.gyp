@@ -81,6 +81,4 @@ Binary search outperformed Simple Search for each of the 5 array sizes.  It is a
 Binary search becomes the obvious efficient choice over simple search; the two lines diverge increasingly as array input size
 increases.  This is expected because Simple search is O (n) and Binary Search is O (log n).  Big O does not measure time, rather
 it measures the efficiency of an algorithm assuming the worst case scenario.  
-
-
 """
