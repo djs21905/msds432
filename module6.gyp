@@ -173,3 +173,19 @@ plt.title("Breadth First Search")
 plt.ylabel("Time (ms)")
 
 plt.show()
+
+
+"""
+Breadth First Search is an aglorithm used to locate a desired record from a graph data structure.  In this experiment
+5^5 unique ID's were generated at 5 different levels.  Each of the nodes/edges were stored in a hash format using a dictionary.
+Each of the 5 layers had and increasing number of relationships.  For example layer 1 was comprised of 5 people, layer 2 25 people
+layer 3 125 people,  layer 4 625 and layer 5 3125 people.  Breadth First Search was conducted in triplicate for a random
+set of 3 Id's in each of the 5 layers.
+
+The results support our expectation.  Retrieving records located in higher levels took longer than locating records
+stored in lower levels.  
+
+The bar graph clearly illustrates this as level 4 and 5 Id's had
+signifiacntly longer average retrieval times than levels 1-3.  
+
+"""
