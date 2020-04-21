@@ -73,4 +73,9 @@ def createnode():
 random.seed(42) 
 graph = createnode()
 
-print(len(graph[5]))
+l1sample = random.sample(graph[1], 3)
+l2sample = random.sample(graph[2], 3)
+l3sample = random.sample(graph[3], 3)
+l4sample = random.sample(graph[4], 3)
+l5sample = random.sample(graph[5], 3)
+
