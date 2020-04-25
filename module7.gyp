@@ -86,7 +86,7 @@ graph = { # DC Pathway
         "Pittsburg": ["Cincinnati"],
         "Cincinnati": ["St Louis"],
         "St Louis": "Oklahoma City",
-        "Oklahoma City": ["Albuquerque"]
+        "Oklahoma City": ["Albuquerque"],
 
         # Point of Convergence on Vegas
         "Las Vegas":["San Diego", "Los Angeles"],
