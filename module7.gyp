@@ -28,7 +28,7 @@ def findla(name,param2):
 
 # BFS
 # Param2 is destination i.e Los Angeles
-def search(name,param2):
+def search(name,param2,reverse):
     search_queue = deque()
     search_queue += graph[name]
 
@@ -37,39 +37,55 @@ def search(name,param2):
     paths = {}
     ticker = 1
     for varname in search_queue:
-        paths[varname + "Path" + str(ticker)] = ["NYC",varname]
+        paths[varname + "_Path" + str(ticker)] = ["NYC",varname]
         ticker += 1
-    print(paths)
+    #print(paths) REMOVE THIS
 
     # This array is how you keep track of which people you've searched before.
     searched = []
-    level = 1
+    #level = 1  REMOVE THIS 
     while search_queue:
         place = search_queue.popleft()
-        print(place , level)
+        #print(place , level)  REMOVE THIS
         # Only search this person if you haven't already searched them.
         if place not in searched:
+            print(reverse[place])
+            if place != "DC" and "Indianapolis" and "Pittsburg":
+                if paths["DC_Path1"][-1] in reverse[place]:
+                    paths["DC_Path1"].append(place)
+                if paths["Pittsburg_Path2"][-1] in reverse[place]:
+                    paths["Pittsburg_Path2"].append(place)
+                if paths["Indianapolis_Path3"][-1] in reverse[place]:
+                    paths["Indianapolis_Path3"].append(place)  
+                print(paths["DC_Path1"])
+                print(paths["Pittsburg_Path2"])
+                print(paths["Indianapolis_Path3"])
             if findla(place,param2):
                 print(place + " was located")
                 return True
             else:
                 search_queue += graph[place]
                 # Marks this person as searched
-                searched.append((place,level))
-                level += 1
+                searched.append(place)
+                #level += 1   REMOVE THIS
 
             # If place is not one of the 3 starting cities
             # use "place" as the key in the reverse_graph
             # if the popped item in the recorded path is equal
             # to one of the items in the reverse graph we append place
             # to the path
-        # if place not "DC" or "Indianapolis" or "Pittsburg":
-        #         if DC_Path1.pop in reverse_graph[place]:
-        #             DC_Path1.append[place]
-        #         elif Pittsburg_Path2.pop in reverse_graph[place]:
-        #             Pittsburg_Path2.append[place]
-        #         elif Indianapolis_Path3.pop in reverse_graph[place]:
-        #             Indianapolis_Path3.append[place]  
+        
+        # print(reverse[place])
+        # if place != "DC" and "Indianapolis" and "Pittsburg":
+        #         if paths["DC_Path1"][-1] in reverse[place]:
+        #             paths["DC_Path1"].append(place)
+        #         elif paths["Pittsburg_Path2"][-1] in reverse[place]:
+        #             paths["Pittsburg_Path2"].append(place)
+        #         elif paths["Indianapolis_Path3"][-1] in reverse[place]:
+        #             paths["Indianapolis_Path3"].append(place)  
+        #         print(paths["DC_Path1"])
+        #         print(paths["Pittsburg_Path2"])
+        #         print(paths["Indianapolis_Path3"])
     return False
 
 
@@ -147,4 +163,4 @@ for key, val in graph.items():
             reverse[item] = [key]
 
 
-search("NYC", "Los Angeles")
+search("NYC", "Los Angeles",reverse)
