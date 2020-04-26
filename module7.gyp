@@ -5,9 +5,7 @@ from collections import deque
 import random
 import string
 import time
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+
 
 costs = {}
 
@@ -62,9 +60,26 @@ def search(name,param2,reverse):
                 print(paths["Indianapolis_Path3"])
             if findla(place,param2):
                 print(place + " was located")
+                for key,value in paths.items():
+                      if "Los Angeles" in value:
+                            print("The quickest path is:")
+                            for item in value: 
+                                  if item == param2:
+                                        print(item)
+                                  else:
+                                        print(item + "--->")
+                            
                 return True
+            # Moves Los Angeles to front of Queue so it is chosen first if available
             else:
-                search_queue += graph[place]
+                if param2 in graph[place]:
+                   print(graph[place])
+                   a = graph[place].index(param2) 
+                   graph[place][a], graph[place][0] = graph[place][0], graph[place][a]
+                   print(graph[place])
+                   search_queue += graph[place]   
+                else:
+                      search_queue += graph[place]
                 # Marks this person as searched
                 searched.append(place)
                 #level += 1   REMOVE THIS
@@ -162,5 +177,5 @@ for key, val in graph.items():
         else:
             reverse[item] = [key]
 
-
+# (Start Point, Target, Reverse graph for tracking)
 search("NYC", "Los Angeles",reverse)
