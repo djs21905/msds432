@@ -9,25 +9,67 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+costs = {}
+
+processed = []
+
+parents = []
+
+# Backtrace 
+# def backtrace(parent, start, end):
+#     path = [end]
+#     while path[-1] != start:
+#         path.append(parent[path[-1]])
+#     path.reverse()
+#     return path
+
 def findla(name,param2):
       return name == param2
 
+# BFS
+# Param2 is destination i.e Los Angeles
 def search(name,param2):
     search_queue = deque()
     search_queue += graph[name]
+
+    # Dyanmically creates 3 lists for Path 1 through 3 
+    # Used to keep track of each path 
+    paths = {}
+    ticker = 1
+    for varname in search_queue:
+        paths[varname + "Path" + str(ticker)] = ["NYC",varname]
+        ticker += 1
+    print(paths)
+
     # This array is how you keep track of which people you've searched before.
     searched = []
+    level = 1
     while search_queue:
-        person = search_queue.popleft()
+        place = search_queue.popleft()
+        print(place , level)
         # Only search this person if you haven't already searched them.
-        if person not in searched:
-            if findla(person,param2):
-                print(person + " was located")
+        if place not in searched:
+            if findla(place,param2):
+                print(place + " was located")
                 return True
             else:
-                search_queue += graph[person]
+                search_queue += graph[place]
                 # Marks this person as searched
-                searched.append(person)
+                searched.append((place,level))
+                level += 1
+
+            # If place is not one of the 3 starting cities
+            # use "place" as the key in the reverse_graph
+            # if the popped item in the recorded path is equal
+            # to one of the items in the reverse graph we append place
+            # to the path
+        # if place not "DC" or "Indianapolis" or "Pittsburg":
+        #         if DC_Path1.pop in reverse_graph[place]:
+        #             DC_Path1.append[place]
+        #         elif Pittsburg_Path2.pop in reverse_graph[place]:
+        #             Pittsburg_Path2.append[place]
+        #         elif Indianapolis_Path3.pop in reverse_graph[place]:
+        #             Indianapolis_Path3.append[place]  
     return False
 
 
@@ -69,7 +111,7 @@ while node is not None:
 
 graph = { # DC Pathway
         "NYC":["DC","Pittsburg","Indianapolis"],
-        "DC":["Atlana"],
+        "DC":["Atlanta"],
         "Atlanta":["New Orleans"],
         "New Orleans": ["Dallas"],
         "Dallas":["Albuquerque"],
@@ -85,11 +127,24 @@ graph = { # DC Pathway
         # Pittsburg Pathway
         "Pittsburg": ["Cincinnati"],
         "Cincinnati": ["St Louis"],
-        "St Louis": "Oklahoma City",
+        "St Louis": ["Oklahoma City"],
         "Oklahoma City": ["Albuquerque"],
 
         # Point of Convergence on Vegas
         "Las Vegas":["San Diego", "Los Angeles"],
-        "San Diego": ["Los Angeles"],
+        "San Diego": ["Los Angeles"]
 
 }
+
+
+# Creates a Reverse Graph
+reverse = {}
+for key, val in graph.items():
+    for item in val: 
+        if item in reverse: 
+            reverse[item].append(key)
+        else:
+            reverse[item] = [key]
+
+
+search("NYC", "Los Angeles")
