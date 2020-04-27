@@ -13,14 +13,6 @@ processed = []
 
 parents = []
 
-# Backtrace 
-# def backtrace(parent, start, end):
-#     path = [end]
-#     while path[-1] != start:
-#         path.append(parent[path[-1]])
-#     path.reverse()
-#     return path
-
 def findla(name,param2):
       return name == param2
 
@@ -37,15 +29,9 @@ def search(name,param2,reverse):
     for varname in search_queue:
         paths[varname + "_Path" + str(ticker)] = ["NYC",varname]
         ticker += 1
-    #print(paths) REMOVE THIS
-
-    # This array is how you keep track of which people you've searched before.
     searched = []
-    #level = 1  REMOVE THIS 
     while search_queue:
         place = search_queue.popleft()
-        #print(place , level)  REMOVE THIS
-        # Only search this person if you haven't already searched them.
         if place not in searched:
             print(reverse[place])
             if place != "DC" and "Indianapolis" and "Pittsburg":
@@ -61,14 +47,13 @@ def search(name,param2,reverse):
             if findla(place,param2):
                 print(place + " was located")
                 for key,value in paths.items():
-                      if "Los Angeles" in value:
+                      if param2 in value:
                             print("The quickest path is:")
                             for item in value: 
                                   if item == param2:
                                         print(item)
                                   else:
-                                        print(item + "--->")
-                            
+                                        print(item + "--->")           
                 return True
             # Moves Los Angeles to front of Queue so it is chosen first if available
             else:
@@ -80,27 +65,7 @@ def search(name,param2,reverse):
                    search_queue += graph[place]   
                 else:
                       search_queue += graph[place]
-                # Marks this person as searched
                 searched.append(place)
-                #level += 1   REMOVE THIS
-
-            # If place is not one of the 3 starting cities
-            # use "place" as the key in the reverse_graph
-            # if the popped item in the recorded path is equal
-            # to one of the items in the reverse graph we append place
-            # to the path
-        
-        # print(reverse[place])
-        # if place != "DC" and "Indianapolis" and "Pittsburg":
-        #         if paths["DC_Path1"][-1] in reverse[place]:
-        #             paths["DC_Path1"].append(place)
-        #         elif paths["Pittsburg_Path2"][-1] in reverse[place]:
-        #             paths["Pittsburg_Path2"].append(place)
-        #         elif paths["Indianapolis_Path3"][-1] in reverse[place]:
-        #             paths["Indianapolis_Path3"].append(place)  
-        #         print(paths["DC_Path1"])
-        #         print(paths["Pittsburg_Path2"])
-        #         print(paths["Indianapolis_Path3"])
     return False
 
 
