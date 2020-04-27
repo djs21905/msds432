@@ -6,6 +6,7 @@ import random
 import string
 import time
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 costs = {}
@@ -262,16 +263,19 @@ dij_stops = len(dij_path)
 #print(bfs_stops,dij_stops)
 
 
-results = {"BFS Stops": [bfs_stops], 
-            "DIJ Stops": [dij_stops],
-            "BFS Total Cost": [bfs_total_cost],
-            "DIJ Total Cost": [dij_total_cost],
-            "BFS Computation Time (ms)": [bfs_time_to_run],
-            "DIJ Computation Time (ms)": [dij_time_to_run]
+results = {"Stops": [bfs_stops,dij_stops], 
+            "Total Cost": [bfs_total_cost,dij_total_cost],
+            "Computation Time (ms)": [bfs_time_to_run,dij_time_to_run]
 }
 
 #print(results)
 
-final_results = pd.DataFrame(results)
+final_results = pd.DataFrame(results, index = ["BFS","DIJ"])
 
 print(final_results)
+
+
+plt.bar(final_results.index, final_results["Stops"])
+plt.bar(final_results.index, final_results["Total Cost"])
+plt.bar(final_results.index, final_results["Computation Time (ms)"])
+plt.show()
