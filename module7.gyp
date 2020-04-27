@@ -5,6 +5,7 @@ from collections import deque
 import random
 import string
 import time
+import pandas as pd
 
 
 costs = {}
@@ -111,7 +112,9 @@ for key, val in graph.items():
             reverse[item] = [key]
 
 # (Start Point, Target, Reverse graph for tracking)
+start_time = time.time()
 bfs_path = search("NYC", "Los Angeles",reverse)
+bfs_time_to_run = time.time()- start_time
 print(bfs_path)
 
 dij_graph = {# DC Pathway
@@ -167,6 +170,8 @@ def find_lowest_cost_node(costs):
             lowest_cost_node = node
     return lowest_cost_node
 
+# Timer here
+start_time = time.time()
 # Find the lowest-cost node that you haven't processed yet.
 node = find_lowest_cost_node(costs)
 # If you've processed all the nodes, this while loop is done.
@@ -227,7 +232,7 @@ def findquick(endpoint,reversegraph,start,costs):
         
     
 dij_path = findquick("NYC",reverse,"Los Angeles",costs)
-
+dij_time_to_run = time.time()- start_time
 print(dij_path)
 
 
@@ -239,7 +244,7 @@ for index, item in zip(range(len(dij_path)),dij_path):
    else:
        dij_total_cost = dij_graph[item][dij_path[index+1]] + dij_total_cost
 
-print(dij_total_cost)
+#print(dij_total_cost)
 
 bfs_total_cost = 0
 for index, item in zip(range(len(bfs_path)),bfs_path):
@@ -248,4 +253,25 @@ for index, item in zip(range(len(bfs_path)),bfs_path):
    else:
        bfs_total_cost = dij_graph[item][bfs_path[index+1]] + bfs_total_cost
 
-print(bfs_total_cost)
+#print(bfs_total_cost)
+
+bfs_stops = len(bfs_path)
+
+dij_stops = len(dij_path)
+
+#print(bfs_stops,dij_stops)
+
+
+results = {"BFS Stops": [bfs_stops], 
+            "DIJ Stops": [dij_stops],
+            "BFS Total Cost": [bfs_total_cost],
+            "DIJ Total Cost": [dij_total_cost],
+            "BFS Computation Time (ms)": [bfs_time_to_run],
+            "DIJ Computation Time (ms)": [dij_time_to_run]
+}
+
+#print(results)
+
+final_results = pd.DataFrame(results)
+
+print(final_results)
