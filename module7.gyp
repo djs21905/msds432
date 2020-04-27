@@ -76,9 +76,11 @@ reverse = {}
 for key, val in graph.items():
     for item in val: 
         if item in reverse: 
+            #print(item)
             reverse[item].append(key)
         else:
             reverse[item] = [key]
+        #print(reverse)
 
 def findla(name,param2):
       return name == param2
@@ -100,7 +102,7 @@ def search(name,param2,reverse):
     while search_queue:
         place = search_queue.popleft()
         if place not in searched:
-            print(reverse[place])
+            #print(reverse[place])
             if place != "DC" and "Indianapolis" and "Pittsburg":
                 if paths["DC_Path1"][-1] in reverse[place]:
                     paths["DC_Path1"].append(place)
@@ -108,38 +110,34 @@ def search(name,param2,reverse):
                     paths["Pittsburg_Path2"].append(place)
                 if paths["Indianapolis_Path3"][-1] in reverse[place]:
                     paths["Indianapolis_Path3"].append(place)  
-                print(paths["DC_Path1"])
-                print(paths["Pittsburg_Path2"])
-                print(paths["Indianapolis_Path3"])
+                #print(paths["DC_Path1"])
+                #print(paths["Pittsburg_Path2"])
+                #print(paths["Indianapolis_Path3"])
             if findla(place,param2):
                 print(place + " was located")
+                result = []
                 for key,value in paths.items():
                       if param2 in value:
                             print("The quickest path is:")
                             for item in value: 
                                   if item == param2:
                                         print(item)
+                                        result.append(item)
                                   else:
                                         print(item + "--->")           
                 return True
             # Moves Los Angeles to front of Queue so it is chosen first if available
             else:
                 if param2 in graph[place]:
-                   print(graph[place])
+                   #print(graph[place])
                    a = graph[place].index(param2) 
                    graph[place][a], graph[place][0] = graph[place][0], graph[place][a]
-                   print(graph[place])
+                   #print(graph[place])
                    search_queue += graph[place]   
                 else:
                       search_queue += graph[place]
                 searched.append(place)
     return False
-
-
-
-# (Start Point, Target, Reverse graph for tracking)
-search("NYC", "Los Angeles",reverse)
-
 
 ##################################################
 # Function for Dijkstras Algo.
@@ -176,4 +174,55 @@ while node is not None:
     # Find the next node to process, and loop.
     node = find_lowest_cost_node(costs)
 
-print(costs)
+#start is los angeles end is NYC
+def findquick(endpoint,reversegraph,start,costs):
+    travel_path = [start]
+    var = reversegraph[start]
+    travel_path.append(var)
+    var = reversegraph[start]
+    while endpoint not in travel_path:
+        #print(travel_path)
+        if type(var) is str:
+            travel_path.append(reversegraph[var])
+            var = reversegraph[var]
+        else:
+            val = 100
+            for item in var:
+                city = item
+                if costs[item] < val:
+                    city = item
+                    val = costs[item]
+            if city == "NYC":
+                break
+            else:
+                if type(reversegraph[city]) is list:
+                    for item in reversegraph[city]:
+                        #print(item)
+                        travel_path.append(item)
+                else:
+                   travel_path.append(reversegraph[city]) 
+                var = reversegraph[city]
+    final = []
+    for item in travel_path:
+        if type(item) is list:
+            for x in item:
+                final.append(x)
+        else:
+            final.append(item)
+    return list(reversed(final))
+                
+            
+        
+
+
+
+
+    
+dij_path = findquick("NYC",reverse,"Los Angeles",costs)
+
+print(dij_path)
+
+
+# (Start Point, Target, Reverse graph for tracking)
+bfs_path = search("NYC", "Los Angeles",reverse)
+print(bfs_path)
