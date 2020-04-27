@@ -6,12 +6,79 @@ import random
 import string
 import time
 
+graph = { # DC Pathway
+        "NYC":["DC","Pittsburg","Indianapolis"],
+        "DC":["Atlanta"],
+        "Atlanta":["New Orleans"],
+        "New Orleans": ["Dallas"],
+        "Dallas":["Albuquerque"],
+        "Albuquerque":["Pheonix"],
+        "Pheonix": ["Las Vegas", "San Diego"],
+        
+        # Indianapolis Pathway
+        "Indianapolis": ["Kansas City"],
+        "Kansas City": ["Denver"],
+        "Denver": ["Salt Lake City"],
+        "Salt Lake City": ["Las Vegas"],
 
+        # Pittsburg Pathway
+        "Pittsburg": ["Cincinnati"],
+        "Cincinnati": ["St Louis"],
+        "St Louis": ["Oklahoma City"],
+        "Oklahoma City": ["Albuquerque"],
+
+        # Point of Convergence on Vegas
+        "Las Vegas":["San Diego", "Los Angeles"],
+        "San Diego": ["Los Angeles"]
+
+}
+
+dij_graph = {# DC Pathway
+        "NYC":{"DC":2,"Pittsburg":7,"Indianapolis":11},
+        "DC":{"Atlanta":2},
+        "Atlanta":{"New Orleans":2},
+        "New Orleans": {"Dallas":2},
+        "Dallas":{"Albuquerque":2},
+        "Albuquerque":{"Pheonix":2},
+        "Pheonix": {"Las Vegas":2, "San Diego":5},
+        
+        # Indianapolis Pathway
+        "Indianapolis": {"Kansas City":8},
+        "Kansas City": {"Denver":7},
+        "Denver": {"Salt Lake City":6},
+        "Salt Lake City": {"Las Vegas":9},
+
+        # Pittsburg Pathway
+        "Pittsburg": {"Cincinnati":6},
+        "Cincinnati": {"St Louis":8},
+        "St Louis": {"Oklahoma City":7},
+        "Oklahoma City": {"Albuquerque":9},
+
+        # Point of Convergence on Vegas
+        "Las Vegas":{"San Diego":2, "Los Angeles":5},
+        "San Diego": {"Los Angeles":2},
+        "Los Angeles": {}
+
+
+}
+
+infinity = float("inf")
 costs = {}
+cumulative_distance = [0,2,4,6,8,infinity,12,11,19,26,32,7,13,21,28,infinity,infinity]
+for item,value in zip(dij_graph.keys(),cumulative_distance):
+    costs[item] = value
+costs["Los Angeles"] = infinity
 
 processed = []
 
-parents = []
+# Creates a Reverse Graph
+reverse = {}
+for key, val in graph.items():
+    for item in val: 
+        if item in reverse: 
+            reverse[item].append(key)
+        else:
+            reverse[item] = [key]
 
 def findla(name,param2):
       return name == param2
@@ -69,6 +136,12 @@ def search(name,param2,reverse):
     return False
 
 
+
+# (Start Point, Target, Reverse graph for tracking)
+search("NYC", "Los Angeles",reverse)
+
+
+##################################################
 # Function for Dijkstras Algo.
 def find_lowest_cost_node(costs):
     lowest_cost = float("inf")
@@ -89,7 +162,7 @@ node = find_lowest_cost_node(costs)
 while node is not None:
     cost = costs[node]
     # Go through all the neighbors of this node.
-    neighbors = graph[node]
+    neighbors = dij_graph[node]
     for n in neighbors.keys():
         new_cost = cost + neighbors[n]
         # If it's cheaper to get to this neighbor by going through this node...
@@ -97,50 +170,10 @@ while node is not None:
             # ... update the cost for this node.
             costs[n] = new_cost
             # This node becomes the new parent for this neighbor.
-            parents[n] = node
+            reverse[n] = node
     # Mark the node as processed.
     processed.append(node)
     # Find the next node to process, and loop.
     node = find_lowest_cost_node(costs)
 
-
-
-graph = { # DC Pathway
-        "NYC":["DC","Pittsburg","Indianapolis"],
-        "DC":["Atlanta"],
-        "Atlanta":["New Orleans"],
-        "New Orleans": ["Dallas"],
-        "Dallas":["Albuquerque"],
-        "Albuquerque":["Pheonix"],
-        "Pheonix": ["Las Vegas", "San Diego"],
-        
-        # Indianapolis Pathway
-        "Indianapolis": ["Kansas City"],
-        "Kansas City": ["Denver"],
-        "Denver": ["Salt Lake City"],
-        "Salt Lake City": ["Las Vegas"],
-
-        # Pittsburg Pathway
-        "Pittsburg": ["Cincinnati"],
-        "Cincinnati": ["St Louis"],
-        "St Louis": ["Oklahoma City"],
-        "Oklahoma City": ["Albuquerque"],
-
-        # Point of Convergence on Vegas
-        "Las Vegas":["San Diego", "Los Angeles"],
-        "San Diego": ["Los Angeles"]
-
-}
-
-
-# Creates a Reverse Graph
-reverse = {}
-for key, val in graph.items():
-    for item in val: 
-        if item in reverse: 
-            reverse[item].append(key)
-        else:
-            reverse[item] = [key]
-
-# (Start Point, Target, Reverse graph for tracking)
-search("NYC", "Los Angeles",reverse)
+print(costs)
