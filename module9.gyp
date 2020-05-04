@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
 
 """
-Dynamic Programming is an optimization technique used in programming.  The main problem is divided into sub-problem.  The
+Dynamic Programming is an optimization technique used in programming.  The main problem is divided into sub-problems.  The
 thought is that by solving sub-problems you will eventually reach an optimal solution for the full problem. Results
 from sub-problems are cached so they do not have to be recomputed.  The process of storing the results of already
 solved sub-problems is called Memoization. 
