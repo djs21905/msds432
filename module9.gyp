@@ -63,9 +63,8 @@ def maxStackHeight(arr, n):
     """
     Values are sorted in descending order based on base area.
     """
-
     rot.sort(reverse = True) 
-  
+   
     # Uncomment following two lines to print  
     # all rotations  
     # for i in range(n): 
@@ -138,3 +137,50 @@ if __name__ == "__main__":
     print("The maximum possible height of stack is", 
            maxStackHeight(arr, n)) 
   
+
+
+"""
+Dynamic Programming is an optimization technique used in programming.  The main problem is divided into sub-problem.  The
+thought is that by solving sub-problems you will eventually reach an optimal solution for the full problem. Results
+from sub-problems are cached so they do not have to be recomputed.  The process of storing the results of already
+solved sub-problems is called Memoization. 
+
+
+Walkthrough
+
+Consider an array 
+[height,width,depth]
+[[1,2,3],[4,5,6]] of size n = 2
+
+Step 1)  Create an Empty array of size n = n * 3
+
+[[0,0,0],[0,0,0].......3 * n]
+
+Step 2) Each box has 3 potential orientations.  Create each orientation
+
+[0,0,0] = [1,2,3]
+[0,0,0] = [2,1,3]
+[0,0,0] = [3,1,2]
+
+rot = [[1,2,3],[2,1,3],[3,1,2]........]
+
+Step 3) Each box in rot should be organized by descending order box base area.
+
+Step 4) A list named msh (max stack height) is initiated 
+
+msh = [0,0,0,0 ..... 3*n]
+
+Step 5) Every value in msh is equal to a corresponding rot.h value. 
+        for example msh[1] = rot[1].h
+
+Step 6) Iterate through every box in the array rot.  If the boxes base dimensions are smaller
+than the previous boxes base dimensions and the boxes height is less than the previous boxes height + boxes height 
+we stack the box.  i.e msh[i] = msh[j] + msh[i].  NOTE this is memoization where we cache the previous iterations result
+so that it doesn't have to be recalculated.  This step is what makes this a dynamic programming problem. 
+
+Step 7) Iterate over msh to find the maximum stack height. 
+
+
+
+
+"""
